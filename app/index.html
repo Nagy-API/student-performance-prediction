@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Performance Prediction</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #eef2ff, #f8fafc);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        color: #1f2937;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 980px;
+        display: grid;
+        grid-template-columns: 1fr 1.1fr;
+        gap: 24px;
+        align-items: stretch;
+      }
+
+      .info-card,
+      .form-card {
+        background: #ffffff;
+        border-radius: 22px;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+        padding: 32px;
+      }
+
+      .info-card {
+        background: linear-gradient(160deg, #2563eb, #4f46e5);
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .info-card::after {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        right: -70px;
+        bottom: -70px;
+      }
+
+      .badge {
+        display: inline-block;
+        width: fit-content;
+        background: rgba(255, 255, 255, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        margin-bottom: 24px;
+      }
+
+      h1 {
+        font-size: 34px;
+        line-height: 1.15;
+        margin-bottom: 16px;
+      }
+
+      .info-card p {
+        font-size: 16px;
+        line-height: 1.7;
+        opacity: 0.92;
+        max-width: 420px;
+      }
+
+      .features {
+        margin-top: 36px;
+        display: grid;
+        gap: 12px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .feature-item {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 12px 14px;
+        border-radius: 14px;
+        font-size: 14px;
+      }
+
+      .form-card h2 {
+        font-size: 26px;
+        margin-bottom: 8px;
+        color: #111827;
+      }
+
+      .subtitle {
+        color: #6b7280;
+        margin-bottom: 24px;
+        line-height: 1.5;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .form-group.full {
+        grid-column: span 2;
+      }
+
+      label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 13px 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 12px;
+        font-size: 15px;
+        outline: none;
+        transition: 0.2s ease;
+        background: #ffffff;
+      }
+
+      input:focus,
+      select:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+      }
+
+      button {
+        width: 100%;
+        margin-top: 22px;
+        border: none;
+        padding: 15px 18px;
+        border-radius: 14px;
+        background: #2563eb;
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      button:hover {
+        background: #1d4ed8;
+        transform: translateY(-1px);
+      }
+
+      button:disabled {
+        background: #93c5fd;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .result-card {
+        margin-top: 22px;
+        padding: 18px;
+        border-radius: 16px;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        display: none;
+      }
+
+      .result-card.show {
+        display: block;
+      }
+
+      .result-title {
+        font-size: 14px;
+        color: #6b7280;
+        margin-bottom: 8px;
+      }
+
+      .result-value {
+        font-size: 26px;
+        font-weight: 800;
+      }
+
+      .passed {
+        color: #16a34a;
+      }
+
+      .not-passed {
+        color: #dc2626;
+      }
+
+      .error {
+        color: #dc2626;
+        font-weight: 600;
+        line-height: 1.5;
+      }
+
+      .api-note {
+        margin-top: 16px;
+        font-size: 13px;
+        color: #6b7280;
+        line-height: 1.5;
+      }
+
+      code {
+        background: #eef2ff;
+        padding: 2px 6px;
+        border-radius: 6px;
+        color: #3730a3;
+      }
+
+      @media (max-width: 850px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .form-group.full {
+          grid-column: span 1;
+        }
+
+        h1 {
+          font-size: 28px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="container">
+      <section class="info-card">
+        <div>
+          <span class="badge">Machine Learning API</span>
+          <h1>Student Performance Prediction</h1>
+          <p>
+            Enter a student's academic information and the model will predict
+            whether the student is likely to pass or not.
+          </p>
+        </div>
+
+        <div class="features">
+          <div class="feature-item">Study Hours per Week</div>
+          <div class="feature-item">Attendance Rate</div>
+          <div class="feature-item">Previous Grades</div>
+          <div class="feature-item">Extracurricular Activities</div>
+          <div class="feature-item">Parent Education Level</div>
+        </div>
+      </section>
+
+      <section class="form-card">
+        <h2>Prediction Form</h2>
+        <p class="subtitle">
+          Fill in the student details below, then send the data to your FastAPI
+          model.
+        </p>
+
+        <form id="predictionForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="studyHours">Study Hours per Week</label>
+              <input
+                type="number"
+                id="studyHours"
+                min="0"
+                max="40"
+                step="0.1"
+                placeholder="Example: 10"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="attendanceRate">Attendance Rate (%)</label>
+              <input
+                type="number"
+                id="attendanceRate"
+                min="0"
+                max="100"
+                step="0.1"
+                placeholder="Example: 80"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="previousGrades">Previous Grades</label>
+              <input
+                type="number"
+                id="previousGrades"
+                min="0"
+                max="100"
+                step="0.1"
+                placeholder="Example: 75"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="activities">Extracurricular Activities</label>
+              <select id="activities" required>
+                <option value="" disabled selected>Select option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+
+            <div class="form-group full">
+              <label for="parentEducation">Parent Education Level</label>
+              <select id="parentEducation" required>
+                <option value="" disabled selected>
+                  Select education level
+                </option>
+                <option value="High School">High School</option>
+                <option value="Associate">Associate</option>
+                <option value="Bachelor">Bachelor</option>
+                <option value="Master">Master</option>
+                <option value="Doctorate">Doctorate</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" id="predictBtn">Predict Student Result</button>
+        </form>
+
+        <div class="result-card" id="resultCard">
+          <p class="result-title">Prediction Result</p>
+          <p class="result-value" id="resultText"></p>
+        </div>
+
+        <p class="api-note">
+          Make sure your FastAPI server is running on
+          <code>http://127.0.0.1:8000</code>.
+        </p>
+      </section>
+    </main>
+
+    <script>
+      const API_URL = "http://127.0.0.1:8000/predict";
+
+      const form = document.getElementById("predictionForm");
+      const predictBtn = document.getElementById("predictBtn");
+      const resultCard = document.getElementById("resultCard");
+      const resultText = document.getElementById("resultText");
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        resultCard.classList.remove("show");
+        resultText.className = "result-value";
+        resultText.textContent = "";
+
+        const studentData = {
+          study_hours_per_week: Number(
+            document.getElementById("studyHours").value,
+          ),
+          attendance_rate: Number(
+            document.getElementById("attendanceRate").value,
+          ),
+          previous_grades: Number(
+            document.getElementById("previousGrades").value,
+          ),
+          participation_in_extracurricular_activities:
+            document.getElementById("activities").value,
+          parent_education_level:
+            document.getElementById("parentEducation").value,
+        };
+
+        try {
+          predictBtn.disabled = true;
+          predictBtn.textContent = "Predicting...";
+
+          const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(studentData),
+          });
+
+          if (!response.ok) {
+            throw new Error(
+              "API request failed. Please check your input or server.",
+            );
+          }
+
+          const data = await response.json();
+
+          resultCard.classList.add("show");
+
+          if (data.result === "Passed") {
+            resultText.textContent = "Passed";
+            resultText.classList.add("passed");
+          } else {
+            resultText.textContent = "Not Passed";
+            resultText.classList.add("not-passed");
+          }
+        } catch (error) {
+          resultCard.classList.add("show");
+          resultText.classList.add("error");
+          resultText.textContent = error.message;
+        } finally {
+          predictBtn.disabled = false;
+          predictBtn.textContent = "Predict Student Result";
+        }
+      });
+    </script>
+  </body>
+</html>
