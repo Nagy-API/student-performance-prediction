@@ -20,6 +20,16 @@ The target variable is:
 
 This is a binary classification problem where the model predicts whether a student passed or did not pass.
 
+## Screenshots
+
+### Web Interface
+
+![Web Interface](Img/frontend-preview.png)
+
+### FastAPI Documentation
+
+![FastAPI Docs](Img/api-docs.png)
+
 ## Project Workflow
 
 The notebook follows these steps:
@@ -106,9 +116,14 @@ student-performance-prediction/
 ├── notebook/
 │   └── student-performance-prediction.ipynb
 │
+├── Img/
+│   ├── frontend-preview.png
+│   └── api-docs.png
+│
 ├── requirements.txt
 ├── README.md
-└── .gitignore
+├── .gitignore
+└── LICENSE
 ```
 
 ## How to Run the Project
@@ -116,7 +131,7 @@ student-performance-prediction/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/student-performance-prediction.git
+git clone https://github.com/Nagy-API/student-performance-prediction.git
 cd student-performance-prediction
 ```
 
@@ -179,6 +194,12 @@ Example output:
 }
 ```
 
+## Kaggle Notebook
+
+The notebook version of this project is also available on Kaggle:
+
+https://www.kaggle.com/code/mlnagy/student-performance-prediction
+
 ## Important Note
 
 The model performance is limited because the available dataset does not show strong predictive relationships between the input features and the target variable.
@@ -198,9 +219,3 @@ This project is mainly useful for demonstrating the full machine learning workfl
 - HTML
 - CSS
 - JavaScript
-
-## Kaggle Notebook
-
-The notebook version of this project is also available on Kaggle:
-
-https://www.kaggle.com/code/mlnagy/student-performance-prediction/edit
