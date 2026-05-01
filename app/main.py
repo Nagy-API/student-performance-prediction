@@ -7,7 +7,12 @@ import joblib
 
 
 # Load trained pipeline
-model = joblib.load("../model/student_pass_prediction_pipeline.pkl")
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+MODEL_PATH = BASE_DIR / "model" / "student_pass_prediction_pipeline.pkl"
+
+model = joblib.load(MODEL_PATH)
 
 
 # Create FastAPI app
