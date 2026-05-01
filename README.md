@@ -198,3 +198,9 @@ This project is mainly useful for demonstrating the full machine learning workfl
 - HTML
 - CSS
 - JavaScript
+
+## Kaggle Notebook
+
+The notebook version of this project is also available on Kaggle:
+
+https://www.kaggle.com/code/mlnagy/student-performance-prediction/edit
