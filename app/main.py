@@ -7,7 +7,7 @@ import joblib
 
 
 # Load trained pipeline
-model = joblib.load("student_pass_prediction_pipeline.pkl")
+model = joblib.load("../model/student_pass_prediction_pipeline.pkl")
 
 
 # Create FastAPI app
